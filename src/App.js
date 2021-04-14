@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import items from './data';
+import Gun from './Gun';
+import Category from './Categories'
+const allCategories = ['all', ...new Set(items.map((item) => item.category))]
+console.log(allCategories);
 
 function App() {
+  const [gunItems, setGunItems] = useState(items)
+  const [categories, setCategories] = useState(allCategories);
+  
+
+  const filterItems = (category) => {
+    if (category === 'all') {
+      setGunItems(items);
+      return;
+    }
+    const newItems = items.filter((items) =>
+      items.category === category
+    );
+    setGunItems(newItems);
+    console.log(newItems);
+  };
   return (
-    <div className="App">
+    <main>    <div className="">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Pew Pew List</h1>
       </header>
+      <section className="Category">
+        <Category categories={categories} filterItems={filterItems} />
+        <Gun items={gunItems} />
+      </section>
     </div>
+    </main>
+
   );
 }
 
